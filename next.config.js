@@ -4,6 +4,6 @@ module.exports = {
   },
   publicRuntimeConfig: {
     // Will be available on both server and client
-    apiUrl: 'http://jawak.us-east-2.elasticbeanstalk.com/'
+    apiUrl: 'http://jawak.us-east-2.elasticbeanstalk.com'
   }
 };
