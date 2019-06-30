@@ -1,12 +1,25 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import withRedux from 'next-redux-wrapper';
 import App, { Container } from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
 import Navbar from '../components/Navbar';
+import { store } from '../redux';
 
 class MyApp extends App {
+  static async getInitialProps({ Component, ctx }) {
+    return {
+      pageProps: {
+        ...(Component.getInitialProps
+          ? await Component.getInitialProps(ctx)
+          : {})
+      }
+    };
+  }
+
   componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -16,7 +29,7 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, store } = this.props;
 
     return (
       <Container>
@@ -31,16 +44,18 @@ class MyApp extends App {
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
         </Head>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Navbar>
-            <Component {...pageProps} />
-          </Navbar>
-        </ThemeProvider>
+        <Provider store={store}>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <Navbar>
+              <Component {...pageProps} />
+            </Navbar>
+          </ThemeProvider>
+        </Provider>
       </Container>
     );
   }
 }
 
-export default MyApp;
+export default withRedux(store, { debug: true })(MyApp);

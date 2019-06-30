@@ -10,7 +10,6 @@ import Tab from '@material-ui/core/Tab';
 import TabContainer from '../components/TabContainer';
 import Table from '../components/Table';
 import { tblEvents } from '../fixtures/fixtures';
-const { publicRuntimeConfig } = getConfig();
 
 const tabHeaders = [
   { id: '1', text: 'Pending Events' },

@@ -1,19 +1,9 @@
 import React from 'react';
-import axios from 'axios';
-import getConfig from 'next/config';
-import Router from 'next/router';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-const { publicRuntimeConfig } = getConfig();
+import { approveEvent } from '../redux/actions';
 
-const EventButtons = ({ status, eventId }) => {
-  const approveEvent = async id => {
-    await axios.put(`${publicRuntimeConfig.apiUrl}/api/event/changeStatus`, {
-      id,
-      statusId: 2
-    });
-    Router.push('/events');
-  };
-
+const EventButtons = ({ status, eventId, approveEvent }) => {
   if (status === 'Pending Approval') {
     return (
       <Button
@@ -29,4 +19,11 @@ const EventButtons = ({ status, eventId }) => {
   return <div />;
 };
 
-export default EventButtons;
+const mapDispatchToProps = dispatch => ({
+  approveEvent: id => dispatch(approveEvent(id))
+});
+
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(EventButtons);

@@ -50,7 +50,10 @@ const JTable = ({ data, headers }) => {
     <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
-          <TableRow>{renderTableHeaders()}</TableRow>
+          <TableRow>
+            {renderTableHeaders()}
+            <TableCell>Actions</TableCell>
+          </TableRow>
         </TableHead>
         <TableBody>{renderRows()}</TableBody>
       </Table>
