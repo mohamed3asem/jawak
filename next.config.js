@@ -1,9 +1,18 @@
+const dotEnvResult = require('dotenv').config();
+
+const prod = process.env.NODE_ENV === 'production';
+
+if (dotEnvResult.error) {
+  throw dotEnvResult.error;
+}
+
 module.exports = {
-  serverRuntimeConfig: {
-    // Will only be available on the server side
+  exportPathMap: function() {
+    return {
+      '/': { page: '/' }
+    };
   },
-  publicRuntimeConfig: {
-    // Will be available on both server and client
-    apiUrl: 'http://jawak.us-east-2.elasticbeanstalk.com'
+  env: {
+    API_URL: prod ? process.env.API_URL_PROD : process.env.API_URL_DEV
   }
 };

@@ -72,10 +72,10 @@ const Clients = ({ organizers, customers }) => {
 
 Clients.getInitialProps = async () => {
   const { data: organizers } = await axios.get(
-    `${publicRuntimeConfig.apiUrl}/api/organizer/getallorganizer`
+    `${process.env.API_URL}/api/organizer/getallorganizer`
   );
   const { data: customers } = await axios.get(
-    `${publicRuntimeConfig.apiUrl}/api/user`
+    `${process.env.API_URL}/api/user`
   );
 
   return { organizers, customers };

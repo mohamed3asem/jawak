@@ -78,7 +78,7 @@ Events.getInitialProps = async () => {
   const activeEvents = [];
   const endedEvents = [];
   const { data } = await axios.post(
-    `${publicRuntimeConfig.apiUrl}/api/Event/getAllEvents`
+    `${process.env.API_URL}/api/Event/getAllEvents`
   );
 
   data.map(event => {
