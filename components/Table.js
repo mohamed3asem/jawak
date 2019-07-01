@@ -45,7 +45,11 @@ const JTable = ({ data, headers, type }) => {
           )}
           {(type === 'organizers' || type === 'customers') && (
             <TableCell>
-              <ClientButtons clientId={itemData.id} type={type} />
+              <ClientButtons
+                clientId={itemData.id}
+                type={type}
+                clientStatus={itemData.isLock}
+              />
             </TableCell>
           )}
         </TableRow>

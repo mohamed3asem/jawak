@@ -1,3 +1,8 @@
 export { approveEvent } from './eventsActions';
 
-export { getOrganizerById, getCustomerById } from './clientsActions';
+export {
+  getOrganizerById,
+  getCustomerById,
+  archiveClient,
+  activateClient
+} from './clientsActions';

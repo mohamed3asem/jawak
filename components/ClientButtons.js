@@ -6,12 +6,19 @@ import Modal from '@material-ui/core/Modal';
 import PersonIcon from '@material-ui/icons/Person';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Check from '@material-ui/icons/Check';
 import OrganizerModal from './OrganizerModal';
 import CustomerModal from './CustomerModal';
-import { getCustomerById, getOrganizerById } from '../redux/actions';
+import {
+  getCustomerById,
+  getOrganizerById,
+  archiveClient,
+  activateClient
+} from '../redux/actions';
 
 const ClientButtons = ({
   type,
+  clientStatus,
   clientId,
   getCustomerById,
   getOrganizerById,
@@ -39,14 +46,29 @@ const ClientButtons = ({
           <PersonIcon />
         </IconButton>
       </Tooltip>
-      <Tooltip title="Archive">
-        <IconButton aria-label="Archive">
-          <DeleteIcon />
-        </IconButton>
-      </Tooltip>
+      {clientStatus ? (
+        <Tooltip title="Activate">
+          <IconButton
+            aria-label="Activate"
+            onClick={() => activateClient(clientId, type)}
+          >
+            <Check />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Archive">
+          <IconButton
+            color="secondary"
+            aria-label="Archive"
+            onClick={() => archiveClient(clientId, type)}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      )}
       {type === 'organizers' && (
         <Tooltip title="Edit">
-          <IconButton color="secondary" aria-label="Edit">
+          <IconButton aria-label="Edit">
             <EditIcon />
           </IconButton>
         </Tooltip>
