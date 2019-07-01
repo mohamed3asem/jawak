@@ -59,13 +59,13 @@ const Events = ({ pendingEvents, activeEvents, endedEvents }) => {
         onChangeIndex={handleChangeIndex}
       >
         <TabContainer dir={theme.direction}>
-          <Table data={pendingEvents} headers={tblEvents} />
+          <Table data={pendingEvents} headers={tblEvents} type="events" />
         </TabContainer>
         <TabContainer dir={theme.direction}>
-          <Table data={activeEvents} headers={tblEvents} />
+          <Table data={activeEvents} headers={tblEvents} type="events" />
         </TabContainer>
         <TabContainer dir={theme.direction}>
-          <Table data={endedEvents} headers={tblEvents} />
+          <Table data={endedEvents} headers={tblEvents} type="events" />
         </TabContainer>
       </SwipeableViews>
     </Container>

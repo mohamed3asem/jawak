@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import EventButtons from './EventButtons';
+import ClientButtons from './ClientButtons';
 
 import { renderEventsStatus } from '../helperFunctions/renderFunctions';
 
@@ -21,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const JTable = ({ data, headers }) => {
+const JTable = ({ data, headers, type }) => {
   const classes = useStyles();
 
   const renderTableHeaders = () =>
@@ -30,16 +31,21 @@ const JTable = ({ data, headers }) => {
   const renderRows = () =>
     data.map(itemData => {
       return (
-        <TableRow key={itemData.id}>
+        <TableRow key={itemData.id} hover>
           {headers.map(({ valueName, id }) => (
             <TableCell key={id}>{itemData[valueName]}</TableCell>
           ))}
-          {itemData.statusId && (
+          {type === 'events' && (
             <TableCell>
               <EventButtons
                 eventId={itemData.id}
                 status={renderEventsStatus(itemData.statusId)}
               />
+            </TableCell>
+          )}
+          {(type === 'organizers' || type === 'customers') && (
+            <TableCell>
+              <ClientButtons clientId={itemData.id} type={type} />
             </TableCell>
           )}
         </TableRow>
@@ -52,7 +58,7 @@ const JTable = ({ data, headers }) => {
         <TableHead>
           <TableRow>
             {renderTableHeaders()}
-            <TableCell>Actions</TableCell>
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>{renderRows()}</TableBody>

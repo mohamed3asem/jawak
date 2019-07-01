@@ -60,10 +60,10 @@ const Clients = ({ organizers, customers }) => {
         onChangeIndex={handleChangeIndex}
       >
         <TabContainer dir={theme.direction}>
-          <Table data={organizers} headers={tblOrganizers} />
+          <Table data={organizers} headers={tblOrganizers} type="organizers" />
         </TabContainer>
         <TabContainer dir={theme.direction}>
-          <Table data={customers} headers={tblCustomers} />
+          <Table data={customers} headers={tblCustomers} type="customers" />
         </TabContainer>
       </SwipeableViews>
     </Container>
