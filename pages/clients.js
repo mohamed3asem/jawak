@@ -37,7 +37,6 @@ const Clients = ({ organizers, customers }) => {
   };
 
   return (
-    // <div> Hello</div>
     <Container fixed>
       <Paper className={classes.root}>
         <Tabs

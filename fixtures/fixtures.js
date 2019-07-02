@@ -34,9 +34,9 @@ export const tblOrganizers = [
   // { id: '5', text: 'Profile Picture', valueName: 'profileImage' },
   // { id: '6', text: 'Role', valueName: 'roleId' },
   { id: '7', text: 'Email', valueName: 'email' },
-  { id: '8', text: 'National ID', valueName: 'nationalNum' },
-  { id: '9', text: 'City', valueName: 'city' },
-  { id: '10', text: 'MOI Number', valueName: 'moiNumber' }
+  { id: '8', text: 'National ID', valueName: 'nationalNum' }
+  // { id: '9', text: 'City', valueName: 'city' },
+  // { id: '10', text: 'MOI Number', valueName: 'moiNumber' }
 ];
 
 export const tblCustomers = [
@@ -44,7 +44,7 @@ export const tblCustomers = [
   { id: '2', text: 'Phone No.', valueName: 'phone' },
   // { id: '3', text: 'Description', valueName: 'description' },
   // { id: '4', text: 'Gender', valueName: 'gender' },
-  { id: '5', text: 'Birthdate', valueName: 'birthdate' },
+  // { id: '5', text: 'Birthdate', valueName: 'birthdate' },
   // { id: '6', text: 'Profile Picture', valueName: 'profileImage' },
   // { id: '7', text: 'Joined By', valueName: 'joinForm' },
   { id: '8', text: 'Email', valueName: 'email' },

@@ -1,4 +1,4 @@
-export { approveEvent } from './eventsActions';
+export { approveEvent, getEventsByOrganizerId } from './eventsActions';
 
 export {
   getOrganizerById,

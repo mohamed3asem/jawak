@@ -1,4 +1,5 @@
 import React from 'react';
+import * as moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -33,7 +34,11 @@ const JTable = ({ data, headers, type }) => {
       return (
         <TableRow key={itemData.id} hover>
           {headers.map(({ valueName, id }) => (
-            <TableCell key={id}>{itemData[valueName]}</TableCell>
+            <TableCell key={id}>
+              {valueName === 'createdAt'
+                ? moment(itemData[valueName]).format('D MM YYYY')
+                : itemData[valueName]}
+            </TableCell>
           ))}
           {type === 'events' && (
             <TableCell>
