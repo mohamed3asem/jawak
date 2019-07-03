@@ -19,7 +19,8 @@ import { drawerWidth, useStyles } from '../styles/navbarStyles';
 const menuHeaders = [
   { id: '1', name: 'Home', link: '/index' },
   { id: '2', name: 'Events', link: '/events' },
-  { id: '3', name: 'Clients', link: '/clients' }
+  { id: '3', name: 'Clients', link: '/clients' },
+  { id: '4', name: 'Tickets', link: '/tickets' }
 ];
 
 const Navbar = ({ children }) => {

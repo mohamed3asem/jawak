@@ -51,6 +51,17 @@ export const tblCustomers = [
   { id: '9', text: 'National ID', valueName: 'nationalNum' }
 ];
 
+export const tblTickets = [
+  { id: '12', text: 'Ticket No', valueName: 'id' },
+  { id: '1', text: 'Event Name', valueName: 'eventName' },
+  { id: '2', text: 'Customer Name', valueName: 'userName' },
+  { id: '3', text: 'Activity Name', valueName: 'activityNameEn' },
+  { id: '4', text: 'Organizer Name', valueName: 'organizerName' },
+  { id: '6', text: 'No. of Tickets', valueName: 'noOfTicket' },
+  { id: '7', text: 'CouponCode', valueName: 'couponCode' },
+  { id: '8', text: 'Created at', valueName: 'createdAt' }
+];
+
 export const organizerListKeys = {
   phone: 'Phone No.',
   city: 'City',

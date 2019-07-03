@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -7,32 +8,44 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Fab from '@material-ui/core/Fab';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import SearchIcon from '@material-ui/icons/Search';
-import { getEventsByOrganizerId } from '../redux/actions';
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    flexWrap: 'wrap'
+    minWidth: '50%'
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: '35%'
+    flexGrow: 1
   },
   fab: {
-    margin: theme.spacing(1)
+    marginBottom: theme.spacing(1)
   },
   selectEmpty: {
     marginTop: theme.spacing(2)
+  },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: 'relative'
+  },
+  fabProgress: {
+    color: '#757575',
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    zIndex: 1
   }
 }));
 
 const SearchBar = ({ label, text, values, handleSearch }) => {
   const classes = useStyles();
   const [value, setValue] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [labelWidth, setLabelWidth] = useState(0);
 
   const inputLabel = useRef(null);
-  const [labelWidth, setLabelWidth] = useState(0);
   useEffect(() => {
     setLabelWidth(inputLabel.current.offsetWidth);
   }, []);
@@ -40,6 +53,12 @@ const SearchBar = ({ label, text, values, handleSearch }) => {
   function handleChange(e) {
     setValue(e.target.value);
   }
+
+  const handleClick = async value => {
+    setLoading(true);
+    await handleSearch(value);
+    setLoading(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -63,16 +82,23 @@ const SearchBar = ({ label, text, values, handleSearch }) => {
         </Select>
         <FormHelperText>{text}</FormHelperText>
       </FormControl>
-      <Fab
-        variant="extended"
-        className={classes.fab}
-        onClick={() => handleSearch(value)}
-      >
-        <SearchIcon />
-        Search
-      </Fab>
+      <div className={classes.wrapper}>
+        <Fab
+          disabled={loading}
+          className={classes.fab}
+          onClick={() => handleClick(value)}
+          size="medium"
+        >
+          <SearchIcon />
+        </Fab>
+        {loading && (
+          <CircularProgress size={20} className={classes.fabProgress} />
+        )}
+      </div>
     </div>
   );
 };
 
-export default SearchBar;
+const mapStateToProps = loading => ({ loading });
+
+export default connect(mapStateToProps)(SearchBar);

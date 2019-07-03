@@ -17,23 +17,12 @@ export const getCustomerById = id => async dispatch => {
   dispatch({ type: GET_CUSTOMER_BY_ID, payload: data });
 };
 
-export const archiveClient = async (id, type) => {
+export const changeClientState = async (id, state, type) => {
   if (type === 'customers') {
-    await axios.put(`${process.env.API_URL}/api/user/locking/${id}/${true}`);
+    await axios.put(`${process.env.API_URL}/api/user/locking/${id}/${!state}`);
   } else {
     await axios.put(
-      `${process.env.API_URL}/api/organizer/locking/${id}/${true}`
-    );
-  }
-  Router.push('/clients');
-};
-
-export const activateClient = async (id, type) => {
-  if (type === 'customers') {
-    await axios.put(`${process.env.API_URL}/api/user/locking/${id}/${false}`);
-  } else {
-    await axios.put(
-      `${process.env.API_URL}/api/organizer/locking/${id}/${false}`
+      `${process.env.API_URL}/api/organizer/locking/${id}/${!state}`
     );
   }
   Router.push('/clients');

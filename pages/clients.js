@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import axios from 'axios';
-import getConfig from 'next/config';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -9,24 +8,41 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TabContainer from '../components/TabContainer';
 import Table from '../components/Table';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import SearchIcon from '@material-ui/icons/Search';
 import { tblOrganizers, tblCustomers } from '../fixtures/fixtures';
-const { publicRuntimeConfig } = getConfig();
+import { filterClients } from '../helperFunctions/clientsFunctions';
 
 const tabHeaders = [
   { id: '1', text: 'Organizers' },
   { id: '2', text: 'Customers' }
 ];
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
+  },
+  textField: {
+    width: '35%',
+    marginBottom: theme.spacing(3)
   }
-});
+}));
 
-const Clients = ({ organizers, customers }) => {
+const Clients = ({ clients, allOrganizers, allCustomers }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
+  const [organizers, setOrganizers] = useState(clients.allOrganizers);
+  const [customers, setCustomers] = useState(clients.allCustomers);
+
+  const handleInputChange = e => {
+    const { value } = e.target;
+    const filteredOrganizers = filterClients(allOrganizers, value);
+    const filteredCustomers = filterClients(allCustomers, value);
+    setOrganizers(filteredOrganizers);
+    setCustomers(filteredCustomers);
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -38,6 +54,22 @@ const Clients = ({ organizers, customers }) => {
 
   return (
     <Container fixed>
+      <TextField
+        id="search"
+        label="Search by Name"
+        type="search"
+        className={classes.textField}
+        margin="normal"
+        variant="outlined"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          )
+        }}
+        onChange={handleInputChange}
+      />
       <Paper className={classes.root}>
         <Tabs
           value={value}
@@ -70,14 +102,16 @@ const Clients = ({ organizers, customers }) => {
 };
 
 Clients.getInitialProps = async () => {
-  const { data: organizers } = await axios.get(
+  const { data: allOrganizers } = await axios.get(
     `${process.env.API_URL}/api/organizer/getallorganizer`
   );
-  const { data: customers } = await axios.get(
+  const { data: allCustomers } = await axios.get(
     `${process.env.API_URL}/api/user`
   );
 
-  return { organizers, customers };
+  const clients = { allOrganizers, allCustomers };
+
+  return { clients, allOrganizers, allCustomers };
 };
 
 export default Clients;

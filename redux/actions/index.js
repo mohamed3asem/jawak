@@ -1,8 +1,12 @@
 export { approveEvent, getEventsByOrganizerId } from './eventsActions';
-
+export {
+  getTicketsByEventId,
+  getTicketsById,
+  changeTicketState
+} from './ticketsActions';
+export { loading, notLoading } from './loadingActions';
 export {
   getOrganizerById,
   getCustomerById,
-  archiveClient,
-  activateClient
+  changeClientState
 } from './clientsActions';

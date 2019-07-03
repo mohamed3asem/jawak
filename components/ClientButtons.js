@@ -12,8 +12,7 @@ import CustomerModal from './CustomerModal';
 import {
   getCustomerById,
   getOrganizerById,
-  archiveClient,
-  activateClient
+  changeClientState
 } from '../redux/actions';
 
 const ClientButtons = ({
@@ -25,6 +24,7 @@ const ClientButtons = ({
   client
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [updatedClientStatus, setUpdatedClientStatus] = useState(clientStatus);
 
   const showClientInfo = async id => {
     if (type === 'organizers') {
@@ -33,6 +33,13 @@ const ClientButtons = ({
       await getCustomerById(id);
     }
     setModalOpen(true);
+  };
+
+  const handleClick = async (id, status, type) => {
+    try {
+      await changeClientState(id, status, type);
+      setUpdatedClientStatus(!updatedClientStatus);
+    } catch (e) {}
   };
 
   return (
@@ -46,26 +53,16 @@ const ClientButtons = ({
           <PersonIcon />
         </IconButton>
       </Tooltip>
-      {clientStatus ? (
-        <Tooltip title="Activate">
-          <IconButton
-            aria-label="Activate"
-            onClick={() => activateClient(clientId, type)}
-          >
-            <Check />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Archive">
-          <IconButton
-            color="secondary"
-            aria-label="Archive"
-            onClick={() => archiveClient(clientId, type)}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+
+      <Tooltip title={updatedClientStatus ? 'Activate' : 'Archive'}>
+        <IconButton
+          color={updatedClientStatus ? 'default' : 'secondary'}
+          onClick={() => handleClick(clientId, updatedClientStatus, type)}
+        >
+          {updatedClientStatus ? <Check /> : <DeleteIcon />}
+        </IconButton>
+      </Tooltip>
+
       {type === 'organizers' && (
         <Tooltip title="Edit">
           <IconButton aria-label="Edit">
@@ -73,6 +70,7 @@ const ClientButtons = ({
           </IconButton>
         </Tooltip>
       )}
+
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
         {type === 'organizers' ? (
           <OrganizerModal

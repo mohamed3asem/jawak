@@ -9,8 +9,13 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import EventButtons from './EventButtons';
 import ClientButtons from './ClientButtons';
+import TicketButtons from './TicketButtons';
 
-import { renderEventsStatus } from '../helperFunctions/renderFunctions';
+import {
+  renderEventsStatus,
+  renderPaymentMethod,
+  renderAttendanceState
+} from '../helperFunctions/renderFunctions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,6 +59,16 @@ const JTable = ({ data, headers, type }) => {
                 clientId={itemData.id}
                 type={type}
                 clientStatus={itemData.isLock}
+              />
+            </TableCell>
+          )}
+          {type === 'tickets' && (
+            <TableCell>
+              <TicketButtons
+                ticketId={itemData.id}
+                paymentMethod={renderPaymentMethod(itemData.paymentMethodeId)}
+                status={itemData.status}
+                attendStatus={renderAttendanceState(itemData.confirmed)}
               />
             </TableCell>
           )}
