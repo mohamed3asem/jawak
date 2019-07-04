@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import Router from 'next/router';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -106,6 +107,9 @@ const Events = ({ categorizedEvents, organizers }) => {
 };
 
 Events.getInitialProps = async () => {
+  if (!localStorage.getItem('jawakAdmin')) {
+    Router.push('/');
+  }
   const { data: events } = await axios.post(
     `${process.env.API_URL}/api/Event/getAllEvents`
   );

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import Router from 'next/router';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -102,6 +103,9 @@ const Clients = ({ clients, allOrganizers, allCustomers }) => {
 };
 
 Clients.getInitialProps = async ({ req, res }) => {
+  if (!localStorage.getItem('jawakAdmin')) {
+    Router.push('/');
+  }
   const { data: allOrganizers } = await axios.get(
     `${process.env.API_URL}/api/organizer/getallorganizer`
   );

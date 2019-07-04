@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import Router from 'next/router';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -114,6 +115,9 @@ const Tickets = ({ events }) => {
 };
 
 Tickets.getInitialProps = async () => {
+  if (!localStorage.getItem('jawakAdmin')) {
+    Router.push('/');
+  }
   const { data: events } = await axios.post(
     `${process.env.API_URL}/api/Event/getAllEvents`
   );

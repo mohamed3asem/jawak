@@ -91,7 +91,9 @@ export default withFormik({
       setSubmitting(false);
       props.onClose();
       setSubmitting(false);
+      ///////////////////////////////
       await Router.push('/clients');
+      ///////////////////////////////
     } catch (e) {
       setFieldError('nationalNum', 'National ID already taken');
       setSubmitting(false);

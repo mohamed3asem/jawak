@@ -14,7 +14,9 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Button from '@material-ui/core/Button';
 import { useStyles } from '../styles/navbarStyles';
+import { logout } from '../redux/actions';
 
 const menuHeaders = [
   { id: '1', name: 'Home', link: '/index' },
@@ -54,9 +56,12 @@ const Navbar = ({ children }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" noWrap className={classes.title}>
             Jawak - Admin Panel
           </Typography>
+          <Button color="inherit" onClick={logout}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer

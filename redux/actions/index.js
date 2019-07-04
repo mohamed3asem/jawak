@@ -11,3 +11,4 @@ export {
   changeClientState,
   editOrganizerById
 } from './clientsActions';
+export { login, logout } from './authActions';

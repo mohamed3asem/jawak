@@ -1,4 +1,5 @@
 import React from 'react';
+import Router from 'next/router';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import Avatar from '@material-ui/core/Avatar';
@@ -8,22 +9,22 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { useStyles } from '../styles/loginPage';
+import { login } from '../redux/actions';
 
 const validationSchema = Yup.object({
-  email: Yup.string('Please, enter your email')
-    .email('Not valid email')
-    .required('Required Field'),
+  emailorphone: Yup.string('').required('Required Field'),
   password: Yup.string('').required('Required Field')
 });
 
 const Index = ({
-  values: { email, password },
+  values: { emailorphone, password },
   errors,
   touched,
   handleSubmit,
   handleChange,
   isValid,
-  setFieldTouched
+  setFieldTouched,
+  isSubmitting
 }) => {
   const classes = useStyles();
 
@@ -44,18 +45,18 @@ const Index = ({
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
-            id="email"
+            id="emailorphone"
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            label="Email Address"
-            name="email"
+            label="Email Address Or Phone Number"
+            name="emailorphone"
             autoFocus
-            helperText={touched.email ? errors.email : ''}
-            error={touched.email && !!errors.email}
-            value={email}
-            onChange={change.bind(null, 'email')}
+            helperText={touched.emailorphone ? errors.emailorphone : ''}
+            error={touched.emailorphone && !!errors.emailorphone}
+            value={emailorphone}
+            onChange={change.bind(null, 'emailorphone')}
           />
           <TextField
             id="password"
@@ -71,13 +72,18 @@ const Index = ({
             value={password}
             onChange={change.bind(null, 'password')}
           />
+          {errors.credentials && (
+            <Typography color="secondary" align="center">
+              {errors.credentials}
+            </Typography>
+          )}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            disabled={!isValid}
+            disabled={!isValid || isSubmitting}
           >
             Sign In
           </Button>
@@ -89,9 +95,19 @@ const Index = ({
 
 export default withFormik({
   displayName: 'LoginForm',
-  mapPropsToValues: () => ({ email: '', password: '' }),
+  mapPropsToValues: () => ({ emailorphone: '', password: '' }),
   validationSchema,
-  handleSubmit: values => {
-    console.log(values);
+  handleSubmit: async (
+    { emailorphone, password },
+    { setSubmitting, setFieldError }
+  ) => {
+    try {
+      const { data } = await login(emailorphone, password);
+      localStorage.setItem('jawakAdmin', data.email);
+      Router.push('/events');
+    } catch (e) {
+      setFieldError('credentials', 'Wrong Credentials');
+      setSubmitting(false);
+    }
   }
 })(Index);
