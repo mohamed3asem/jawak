@@ -59,6 +59,7 @@ const JTable = ({ data, headers, type }) => {
                 clientId={itemData.id}
                 type={type}
                 clientStatus={itemData.isLock}
+                client={itemData}
               />
             </TableCell>
           )}

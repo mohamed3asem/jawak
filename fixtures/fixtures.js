@@ -105,3 +105,49 @@ export const customerListIcons = {
   createdAt: <CalenderToday />,
   description: <EventNote />
 };
+
+export const editFormFields = [
+  {
+    id: 'name',
+    name: 'name',
+    type: 'text',
+    label: 'Organizer Name',
+    required: true
+  },
+  {
+    name: 'phone',
+    type: 'text',
+    label: 'Phone No.',
+    required: false
+  },
+  {
+    name: 'email',
+    type: 'text',
+    label: 'Email Adress',
+    required: true
+  },
+  {
+    name: 'city',
+    type: 'text',
+    label: 'City',
+    required: false
+  },
+  {
+    name: 'moiNumber',
+    type: 'text',
+    label: 'MOI Number',
+    required: true
+  },
+  {
+    name: 'nationalNum',
+    type: 'text',
+    label: 'National Num',
+    required: true
+  },
+  {
+    name: 'description',
+    type: 'text',
+    label: 'Description',
+    required: false
+  }
+];

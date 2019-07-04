@@ -16,8 +16,6 @@ import { organizerListKeys, organizerListIcons } from '../fixtures/fixtures';
 const OrganizerModal = React.forwardRef(({ onClose, organizer }, ref) => {
   const classes = useStyles();
 
-  console.log(moment(organizer.createdAt).format('D MM YYYY'));
-
   const renderListItems = () =>
     _.map(organizerListKeys, (value, key) => (
       <ListItem key={key}>

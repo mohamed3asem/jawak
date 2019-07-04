@@ -27,3 +27,9 @@ export const changeClientState = async (id, state, type) => {
   }
   Router.push('/clients');
 };
+
+export const editOrganizerById = async (id, values) =>
+  await axios.put(`${process.env.API_URL}/api/organizer/editorganizer`, {
+    id,
+    ...values
+  });

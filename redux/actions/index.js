@@ -8,5 +8,6 @@ export { loading, notLoading } from './loadingActions';
 export {
   getOrganizerById,
   getCustomerById,
-  changeClientState
+  changeClientState,
+  editOrganizerById
 } from './clientsActions';

@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -10,34 +9,7 @@ import Select from '@material-ui/core/Select';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SearchIcon from '@material-ui/icons/Search';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    minWidth: '50%'
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    flexGrow: 1
-  },
-  fab: {
-    marginBottom: theme.spacing(1)
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2)
-  },
-  wrapper: {
-    margin: theme.spacing(1),
-    position: 'relative'
-  },
-  fabProgress: {
-    color: '#757575',
-    position: 'absolute',
-    top: 20,
-    left: 20,
-    zIndex: 1
-  }
-}));
+import { useStyles } from '../styles/searchBar';
 
 const SearchBar = ({ label, text, values, handleSearch }) => {
   const classes = useStyles();

@@ -101,7 +101,7 @@ const Clients = ({ clients, allOrganizers, allCustomers }) => {
   );
 };
 
-Clients.getInitialProps = async () => {
+Clients.getInitialProps = async ({ req, res }) => {
   const { data: allOrganizers } = await axios.get(
     `${process.env.API_URL}/api/organizer/getallorganizer`
   );

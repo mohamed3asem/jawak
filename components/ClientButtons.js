@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import Modal from '@material-ui/core/Modal';
+import Dialoge from '@material-ui/core/Dialog';
 import PersonIcon from '@material-ui/icons/Person';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Check from '@material-ui/icons/Check';
 import OrganizerModal from './OrganizerModal';
 import CustomerModal from './CustomerModal';
+import EditForm from './EditForm';
 import {
   getCustomerById,
   getOrganizerById,
@@ -25,6 +27,7 @@ const ClientButtons = ({
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [updatedClientStatus, setUpdatedClientStatus] = useState(clientStatus);
+  const [dialogeOpen, setDialogeOpen] = useState(false);
 
   const showClientInfo = async id => {
     if (type === 'organizers') {
@@ -33,6 +36,11 @@ const ClientButtons = ({
       await getCustomerById(id);
     }
     setModalOpen(true);
+  };
+
+  const openEditForm = async id => {
+    await getOrganizerById(id);
+    setDialogeOpen(true);
   };
 
   const handleClick = async (id, status, type) => {
@@ -65,11 +73,15 @@ const ClientButtons = ({
 
       {type === 'organizers' && (
         <Tooltip title="Edit">
-          <IconButton aria-label="Edit">
+          <IconButton aria-label="Edit" onClick={() => openEditForm(clientId)}>
             <EditIcon />
           </IconButton>
         </Tooltip>
       )}
+
+      <Dialoge open={dialogeOpen} onClose={() => setDialogeOpen(false)}>
+        <EditForm onClose={() => setDialogeOpen(false)} organizer={client} />
+      </Dialoge>
 
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
         {type === 'organizers' ? (
