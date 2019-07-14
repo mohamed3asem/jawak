@@ -16,10 +16,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import { useStyles } from '../styles/navbarStyles';
-import { logout } from '../redux/actions';
+import { logout } from '../helperFunctions/authFunctions';
 
 const menuHeaders = [
-  { id: '1', name: 'Home', link: '/index' },
   { id: '2', name: 'Events', link: '/events' },
   { id: '3', name: 'Clients', link: '/clients' },
   { id: '4', name: 'Tickets', link: '/tickets' }

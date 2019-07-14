@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import nextCookie from 'next-cookies';
 import Router from 'next/router';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -114,15 +115,23 @@ const Tickets = ({ events }) => {
   );
 };
 
-Tickets.getInitialProps = async () => {
-  if (!localStorage.getItem('jawakAdmin')) {
-    Router.push('/');
-  }
+Tickets.getInitialProps = async ctx => {
+  const { token } = nextCookie(ctx);
+
+  const redirectOnError = () =>
+    typeof window !== 'undefined'
+      ? Router.push('/')
+      : ctx.res.writeHead(302, { location: '/' }).end();
+
   const { data: events } = await axios.post(
     `${process.env.API_URL}/api/Event/getAllEvents`
   );
 
-  return { events };
+  if (token) {
+    return { events };
+  }
+
+  return redirectOnError();
 };
 
 const mapStateToProps = ({ loading }) => ({ loading });

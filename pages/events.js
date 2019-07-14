@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Router from 'next/router';
+import nextCookie from 'next-cookies';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -13,6 +14,7 @@ import { tblEvents } from '../fixtures/fixtures';
 import SearchBar from '../components/SearchBar';
 import { getEventsByOrganizerId } from '../redux/actions';
 import { categorizeEvents } from '../helperFunctions/eventsFunctions';
+import { withAuthSync } from '../helperFunctions/authFunctions';
 
 const tabHeaders = [
   { id: '1', text: 'Pending Events' },
@@ -106,10 +108,14 @@ const Events = ({ categorizedEvents, organizers }) => {
   );
 };
 
-Events.getInitialProps = async () => {
-  if (!localStorage.getItem('jawakAdmin')) {
-    Router.push('/');
-  }
+Events.getInitialProps = async ctx => {
+  const { token } = nextCookie(ctx);
+
+  const redirectOnError = () =>
+    typeof window !== 'undefined'
+      ? Router.push('/')
+      : ctx.res.writeHead(302, { location: '/' }).end();
+
   const { data: events } = await axios.post(
     `${process.env.API_URL}/api/Event/getAllEvents`
   );
@@ -118,7 +124,12 @@ Events.getInitialProps = async () => {
   );
 
   const categorizedEvents = categorizeEvents(events);
-  return { categorizedEvents, organizers };
+
+  if (token) {
+    return { categorizedEvents, organizers };
+  }
+
+  return redirectOnError();
 };
 
-export default Events;
+export default withAuthSync(Events);

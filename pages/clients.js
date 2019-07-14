@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import nextCookie from 'next-cookies';
 import Router from 'next/router';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -102,10 +103,14 @@ const Clients = ({ clients, allOrganizers, allCustomers }) => {
   );
 };
 
-Clients.getInitialProps = async ({ req, res }) => {
-  if (!localStorage.getItem('jawakAdmin')) {
-    Router.push('/');
-  }
+Clients.getInitialProps = async ctx => {
+  const { token } = nextCookie(ctx);
+
+  const redirectOnError = () =>
+    typeof window !== 'undefined'
+      ? Router.push('/')
+      : ctx.res.writeHead(302, { location: '/' }).end();
+
   const { data: allOrganizers } = await axios.get(
     `${process.env.API_URL}/api/organizer/getallorganizer`
   );
@@ -115,7 +120,11 @@ Clients.getInitialProps = async ({ req, res }) => {
 
   const clients = { allOrganizers, allCustomers };
 
-  return { clients, allOrganizers, allCustomers };
+  if (token) {
+    return { clients, allOrganizers, allCustomers };
+  }
+
+  return redirectOnError();
 };
 
 export default Clients;

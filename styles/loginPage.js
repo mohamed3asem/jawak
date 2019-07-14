@@ -22,5 +22,15 @@ export const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  loadingWrapper: {
+    margin: theme.spacing(1),
+    position: 'relative'
+  },
+  loading: {
+    position: 'absolute',
+    top: '40%',
+    left: '45%',
+    color: '#757575'
   }
 }));
