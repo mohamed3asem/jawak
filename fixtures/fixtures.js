@@ -1,3 +1,4 @@
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Email from '@material-ui/icons/Email';
 import Smartphone from '@material-ui/icons/Smartphone';
 import LocationCity from '@material-ui/icons/LocationCity';
@@ -60,6 +61,11 @@ export const tblTickets = [
   { id: '6', text: 'No. of Tickets', valueName: 'noOfTicket' },
   { id: '7', text: 'CouponCode', valueName: 'couponCode' },
   { id: '8', text: 'Created at', valueName: 'createdAt' }
+];
+
+export const tblCoupons = [
+  { id: '12', text: 'Coupon Code', valueName: 'code' },
+  { id: '1', text: 'Discount', valueName: 'discount' }
 ];
 
 export const organizerListKeys = {
@@ -149,5 +155,24 @@ export const editFormFields = [
     type: 'text',
     label: 'Description',
     required: false
+  }
+];
+
+export const addCouponFields = [
+  {
+    name: 'code',
+    type: 'text',
+    label: 'Coupon Code',
+    required: true,
+    inputProps: {}
+  },
+  {
+    name: 'discount',
+    type: 'text',
+    label: 'Discount Value',
+    required: true,
+    inputProps: {
+      endAdornment: <InputAdornment position="end">%</InputAdornment>
+    }
   }
 ];

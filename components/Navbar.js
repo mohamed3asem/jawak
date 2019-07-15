@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
 import { useTheme } from '@material-ui/core/styles';
@@ -21,7 +21,9 @@ import { logout } from '../helperFunctions/authFunctions';
 const menuHeaders = [
   { id: '2', name: 'Events', link: '/events' },
   { id: '3', name: 'Clients', link: '/clients' },
-  { id: '4', name: 'Tickets', link: '/tickets' }
+  { id: '4', name: 'Tickets', link: '/tickets' },
+  { id: '5', name: 'Copouns', link: '/coupons' },
+  { id: '6', name: 'Transactions', link: '/transactions' }
 ];
 
 const Navbar = ({ children }) => {

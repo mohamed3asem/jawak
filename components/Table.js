@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import EventButtons from './EventButtons';
 import ClientButtons from './ClientButtons';
 import TicketButtons from './TicketButtons';
+import CouponsButtons from './CouponsButtons';
 
 import {
   renderEventsStatus,
@@ -70,6 +71,14 @@ const JTable = ({ data, headers, type }) => {
                 paymentMethod={renderPaymentMethod(itemData.paymentMethodeId)}
                 status={itemData.status}
                 attendStatus={renderAttendanceState(itemData.confirmed)}
+              />
+            </TableCell>
+          )}
+          {type === 'coupons' && (
+            <TableCell>
+              <CouponsButtons
+                couponId={itemData.id}
+                isActive={itemData.isActive}
               />
             </TableCell>
           )}
