@@ -22,6 +22,7 @@
     "next": "^8.1.0",
     "next-cookies": "^1.1.2",
     "next-redux-wrapper": "^3.0.0-alpha.3",
+    "nprogress": "^0.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
