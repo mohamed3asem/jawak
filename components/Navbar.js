@@ -23,7 +23,8 @@ const menuHeaders = [
   { id: '3', name: 'Clients', link: '/clients' },
   { id: '4', name: 'Tickets', link: '/tickets' },
   { id: '5', name: 'Copouns', link: '/coupons' },
-  { id: '6', name: 'Transactions', link: '/transactions' }
+  { id: '6', name: 'Transactions', link: '/transactions' },
+  { id: '7', name: 'Questions', link: '/questions' }
 ];
 
 const Navbar = ({ children }) => {

@@ -68,6 +68,20 @@ export const tblCoupons = [
   { id: '1', text: 'Discount', valueName: 'discount' }
 ];
 
+export const tblTransactions = [
+  { id: '27', text: 'Coustomer Name', valueName: 'userName' },
+  { id: '12', text: 'Coupon Code', valueName: 'code' },
+  { id: '2', text: 'Discount', valueName: 'discount' },
+  { id: '4', text: 'Event Name', valueName: 'eventName' },
+  { id: '3', text: 'Event Date', valueName: 'eventDate' },
+  { id: '1', text: 'Created At', valueName: 'createdAt' },
+  { id: '6', text: 'No. of Tickets', valueName: 'noOfTicket' },
+  { id: '8', text: 'Ticket price before discount', valueName: 'price' },
+  { id: '7', text: 'Totla price after discount', valueName: 'newPrice' },
+  { id: '22', text: 'Payment Method', valueName: 'paymentMethodeId' },
+  { id: '25', text: 'Confirmed', valueName: 'confirmed' }
+];
+
 export const organizerListKeys = {
   phone: 'Phone No.',
   city: 'City',

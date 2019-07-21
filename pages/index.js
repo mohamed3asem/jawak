@@ -134,7 +134,14 @@ export default withFormik({
       );
       login({ token });
     } catch (e) {
-      setFieldError('credentials', 'Wrong Credentials');
+      if (e.message === 'Network Error') {
+        setFieldError(
+          'credentials',
+          `Network error, please check your internet connection.`
+        );
+      } else {
+        setFieldError('credentials', 'Wrong Credentials.');
+      }
       setSubmitting(false);
     }
   }

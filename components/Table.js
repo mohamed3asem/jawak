@@ -39,13 +39,29 @@ const JTable = ({ data, headers, type }) => {
     data.map(itemData => {
       return (
         <TableRow key={itemData.id} hover>
-          {headers.map(({ valueName, id }) => (
-            <TableCell key={id}>
-              {valueName === 'createdAt'
-                ? moment(itemData[valueName]).format('D MM YYYY')
-                : itemData[valueName]}
-            </TableCell>
-          ))}
+          {headers.map(({ valueName, id }) => {
+            if (valueName === 'createdAt') {
+              return (
+                <TableCell key={id}>
+                  {moment(itemData[valueName]).format('D MM YYYY')}
+                </TableCell>
+              );
+            } else if (valueName === 'paymentMethodeId') {
+              return (
+                <TableCell key={id}>
+                  {itemData[valueName] === 1 ? 'Cash' : 'Visa'}
+                </TableCell>
+              );
+            } else if (valueName === 'confirmed') {
+              return (
+                <TableCell key={id}>
+                  {itemData[valueName] ? 'Yes' : 'No'}
+                </TableCell>
+              );
+            } else {
+              return <TableCell key={id}>{itemData[valueName]}</TableCell>;
+            }
+          })}
           {type === 'events' && (
             <TableCell>
               <EventButtons
@@ -82,6 +98,7 @@ const JTable = ({ data, headers, type }) => {
               />
             </TableCell>
           )}
+          {type === 'transactions' && <TableCell />}
         </TableRow>
       );
     });
