@@ -55,7 +55,6 @@ const Index = ({
             fullWidth
             label="Email Address Or Phone Number"
             name="emailorphone"
-            autoFocus
             helperText={touched.emailorphone ? errors.emailorphone : ''}
             error={touched.emailorphone && !!errors.emailorphone}
             value={emailorphone}

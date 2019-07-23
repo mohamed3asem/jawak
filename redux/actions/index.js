@@ -11,4 +11,5 @@ export {
   changeClientState,
   editOrganizerById
 } from './clientsActions';
-export { login, logout } from './authActions';
+export { getWalletForOrganizer } from './walletActions';
+export { registerAdmin } from './authActions';

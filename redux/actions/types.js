@@ -8,3 +8,9 @@ export const GET_CUSTOMER_BY_ID = 'GET_CUSTOMER_BY_ID';
 // Loading Types
 export const LOADING = 'LOADING';
 export const NOT_LOADING = 'NOT_LOADING';
+
+// Wallet Types
+export const GET_WALLET_FOR_ORGANIZER = 'GET_WALLET_FOR_ORGANIZER';
+
+// Auth Types
+export const REGISTER_ADMIN = 'REGISTER_ADMIN';

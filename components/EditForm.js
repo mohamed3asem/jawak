@@ -52,7 +52,6 @@ const EditForm = ({
               fullWidth
               label={label}
               name={name}
-              autoFocus
               helperText={touched[name] ? errors[name] : ''}
               error={touched[name] && !!errors[name]}
               value={values[name] ? values[name] : ''}

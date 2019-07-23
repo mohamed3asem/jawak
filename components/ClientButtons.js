@@ -7,14 +7,17 @@ import Dialoge from '@material-ui/core/Dialog';
 import PersonIcon from '@material-ui/icons/Person';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AccountBalanceWallet from '@material-ui/icons/AccountBalanceWallet';
 import Check from '@material-ui/icons/Check';
 import OrganizerModal from './OrganizerModal';
 import CustomerModal from './CustomerModal';
 import EditForm from './EditForm';
+import WalletDetails from './WalletDetails';
 import {
   getCustomerById,
   getOrganizerById,
-  changeClientState
+  changeClientState,
+  getWalletForOrganizer
 } from '../redux/actions';
 
 const ClientButtons = ({
@@ -23,11 +26,14 @@ const ClientButtons = ({
   clientId,
   getCustomerById,
   getOrganizerById,
-  client
+  getWalletForOrganizer,
+  client,
+  walletDetails
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [updatedClientStatus, setUpdatedClientStatus] = useState(clientStatus);
   const [dialogeOpen, setDialogeOpen] = useState(false);
+  const [walletDialogeOpen, setWalletDialogeOpen] = useState(false);
 
   const showClientInfo = async id => {
     if (type === 'organizers') {
@@ -36,6 +42,12 @@ const ClientButtons = ({
       await getCustomerById(id);
     }
     setModalOpen(true);
+  };
+
+  const openWalletDetails = async id => {
+    await getOrganizerById(id);
+    await getWalletForOrganizer(id);
+    setWalletDialogeOpen(true);
   };
 
   const openEditForm = async id => {
@@ -79,6 +91,30 @@ const ClientButtons = ({
         </Tooltip>
       )}
 
+      {type === 'organizers' && (
+        <Tooltip title="Wallet">
+          <IconButton
+            aria-label="Wallet"
+            onClick={() => openWalletDetails(clientId)}
+          >
+            <AccountBalanceWallet />
+          </IconButton>
+        </Tooltip>
+      )}
+
+      <Dialoge
+        maxWidth="xs"
+        fullWidth
+        open={walletDialogeOpen}
+        onClose={() => setWalletDialogeOpen(false)}
+      >
+        <WalletDetails
+          onClose={() => setWalletDialogeOpen(false)}
+          organizer={client}
+          walletDetails={walletDetails}
+        />
+      </Dialoge>
+
       <Dialoge open={dialogeOpen} onClose={() => setDialogeOpen(false)}>
         <EditForm onClose={() => setDialogeOpen(false)} organizer={client} />
       </Dialoge>
@@ -100,11 +136,15 @@ const ClientButtons = ({
   );
 };
 
-const mapStateToProps = ({ client }) => ({ client });
+const mapStateToProps = ({ client, walletDetails }) => ({
+  client,
+  walletDetails
+});
 
 const mapDispatchToProps = dispatch => ({
   getOrganizerById: id => dispatch(getOrganizerById(id)),
-  getCustomerById: id => dispatch(getCustomerById(id))
+  getCustomerById: id => dispatch(getCustomerById(id)),
+  getWalletForOrganizer: id => dispatch(getWalletForOrganizer(id))
 });
 
 export default connect(
