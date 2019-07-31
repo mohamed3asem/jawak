@@ -1,5 +1,6 @@
 import React from 'react';
 import Router from 'next/router';
+import getConfig from 'next/config';
 import nextCookie from 'next-cookies';
 import axios from 'axios';
 import { withFormik } from 'formik';
@@ -13,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { useStyles } from '../styles/loginPage';
 import { login } from '../helperFunctions/authFunctions';
+const { publicRuntimeConfig } = getConfig();
 
 const validationSchema = Yup.object({
   emailorphone: Yup.string('').required('Required Field'),
@@ -90,9 +92,7 @@ const Index = ({
             >
               Sign In
             </Button>
-            {isSubmitting && (
-              <CircularProgress size={24} className={classes.loading} />
-            )}
+            {isSubmitting && <CircularProgress size={24} className={classes.loading} />}
           </div>
         </form>
       </div>
@@ -119,25 +119,16 @@ export default withFormik({
   displayName: 'LoginForm',
   mapPropsToValues: () => ({ emailorphone: '', password: '' }),
   validationSchema,
-  handleSubmit: async (
-    { emailorphone, password },
-    { setSubmitting, setFieldError }
-  ) => {
+  handleSubmit: async ({ emailorphone, password }, { setSubmitting, setFieldError }) => {
     try {
-      const { data: token } = await axios.post(
-        `${process.env.API_URL}/api/admin/login`,
-        {
-          emailorphone,
-          password
-        }
-      );
+      const { data: token } = await axios.post(`${publicRuntimeConfig.API_URL}/api/admin/login`, {
+        emailorphone,
+        password
+      });
       login({ token });
     } catch (e) {
       if (e.message === 'Network Error') {
-        setFieldError(
-          'credentials',
-          `Network error, please check your internet connection.`
-        );
+        setFieldError('credentials', `Network error, please check your internet connection.`);
       } else {
         setFieldError('credentials', 'Wrong Credentials.');
       }

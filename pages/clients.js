@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import nextCookie from 'next-cookies';
 import Router from 'next/router';
+import getConfig from 'next/config';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -17,11 +18,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import { tblOrganizers, tblCustomers } from '../fixtures/fixtures';
 import { filterClients } from '../helperFunctions/clientsFunctions';
 import { registerAdmin } from '../redux/actions';
+const { publicRuntimeConfig } = getConfig();
 
-const tabHeaders = [
-  { id: '1', text: 'Organizers' },
-  { id: '2', text: 'Customers' }
-];
+const tabHeaders = [{ id: '1', text: 'Organizers' }, { id: '2', text: 'Customers' }];
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,13 +32,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Clients = ({
-  clients,
-  allOrganizers,
-  allCustomers,
-  registerAdmin,
-  parsedToken
-}) => {
+const Clients = ({ clients, allOrganizers, allCustomers, registerAdmin, parsedToken }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
@@ -125,11 +118,9 @@ Clients.getInitialProps = async ctx => {
       : ctx.res.writeHead(302, { location: '/' }).end();
 
   const { data: allOrganizers } = await axios.get(
-    `${process.env.API_URL}/api/organizer/getallorganizer`
+    `${publicRuntimeConfig.API_URL}/api/organizer/getallorganizer`
   );
-  const { data: allCustomers } = await axios.get(
-    `${process.env.API_URL}/api/user`
-  );
+  const { data: allCustomers } = await axios.get(`${publicRuntimeConfig.API_URL}/api/user`);
 
   const clients = { allOrganizers, allCustomers };
 

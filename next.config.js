@@ -1,18 +1,14 @@
-const dotEnvResult = require('dotenv').config();
+// const dotEnvResult = require('dotenv').config();
+
+// if (dotEnvResult.error) {
+//   throw dotEnvResult.error;
+// }
 
 const prod = process.env.NODE_ENV === 'production';
 
-if (dotEnvResult.error) {
-  throw dotEnvResult.error;
-}
-
 module.exports = {
-  exportPathMap: function() {
-    return {
-      '/': { page: '/' }
-    };
-  },
-  env: {
-    API_URL: prod ? process.env.API_URL_PROD : process.env.API_URL_DEV
+  target: 'server',
+  publicRuntimeConfig: {
+    API_URL: prod ? 'http://jawak.us-east-2.elasticbeanstalk.com' : 'http://192.168.1.8:5001'
   }
 };

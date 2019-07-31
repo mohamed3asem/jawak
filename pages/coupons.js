@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import getConfig from 'next/config';
 import Router from 'next/router';
 import nextCookie from 'next-cookies';
 import { makeStyles } from '@material-ui/core';
@@ -12,6 +13,7 @@ import Table from '../components/Table';
 import AddCouponForm from '../components/AddCouponForm';
 import { tblCoupons } from '../fixtures/fixtures';
 import { withAuthSync } from '../helperFunctions/authFunctions';
+const { publicRuntimeConfig } = getConfig();
 
 const useStyles = makeStyles({
   float: { float: 'right', marginBottom: '20px', marginRight: '20px' }
@@ -53,7 +55,7 @@ Coupons.getInitialProps = async ctx => {
       ? Router.push('/')
       : ctx.res.writeHead(302, { location: '/' }).end();
 
-  const { data } = await axios.get(`${process.env.API_URL}/api/coupon/getAll`);
+  const { data } = await axios.get(`${publicRuntimeConfig.API_URL}/api/coupon/getAll`);
 
   if (token) {
     return { coupons: data };

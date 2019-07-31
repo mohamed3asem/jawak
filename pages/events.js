@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import getConfig from 'next/config';
 import Router from 'next/router';
 import nextCookie from 'next-cookies';
 import SwipeableViews from 'react-swipeable-views';
@@ -15,6 +16,7 @@ import SearchBar from '../components/SearchBar';
 import { getEventsByOrganizerId } from '../redux/actions';
 import { categorizeEvents } from '../helperFunctions/eventsFunctions';
 import { withAuthSync } from '../helperFunctions/authFunctions';
+const { publicRuntimeConfig } = getConfig();
 
 const tabHeaders = [
   { id: '1', text: 'Pending Events' },
@@ -32,12 +34,8 @@ const Events = ({ categorizedEvents, organizers }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
-  const [pendingEvents, setPendingEvents] = useState(
-    categorizedEvents.pendingEvents
-  );
-  const [activeEvents, setActiveEvents] = useState(
-    categorizedEvents.activeEvents
-  );
+  const [pendingEvents, setPendingEvents] = useState(categorizedEvents.pendingEvents);
+  const [activeEvents, setActiveEvents] = useState(categorizedEvents.activeEvents);
   const [endedEvents, setEndedEvents] = useState(categorizedEvents.endedEvents);
 
   const handleChange = (event, newValue) => {
@@ -51,16 +49,12 @@ const Events = ({ categorizedEvents, organizers }) => {
   const handleSearch = async id => {
     let events;
     if (!id) {
-      const { data } = await axios.post(
-        `${process.env.API_URL}/api/Event/getAllEvents`
-      );
+      const { data } = await axios.post(`${publicRuntimeConfig.API_URL}/api/Event/getAllEvents`);
       events = data;
     } else {
       events = await getEventsByOrganizerId(id);
     }
-    const { pendingEvents, activeEvents, endedEvents } = categorizeEvents(
-      events
-    );
+    const { pendingEvents, activeEvents, endedEvents } = categorizeEvents(events);
     setPendingEvents(pendingEvents);
     setActiveEvents(activeEvents);
     setEndedEvents(endedEvents);
@@ -117,10 +111,10 @@ Events.getInitialProps = async ctx => {
       : ctx.res.writeHead(302, { location: '/' }).end();
 
   const { data: events } = await axios.post(
-    `${process.env.API_URL}/api/Event/getAllEvents`
+    `${publicRuntimeConfig.API_URL}/api/Event/getAllEvents`
   );
   const { data: organizers } = await axios.get(
-    `${process.env.API_URL}/api/organizer/getallorganizer`
+    `${publicRuntimeConfig.API_URL}/api/organizer/getallorganizer`
   );
 
   const categorizedEvents = categorizeEvents(events);

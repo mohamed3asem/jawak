@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import nextCookie from 'next-cookies';
+import getConfig from 'next/config';
 import Router from 'next/router';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,6 +15,7 @@ import SearchBar from '../components/SearchBar';
 import Table from '../components/Table';
 import { getTicketsByEventId, getTicketsById } from '../redux/actions';
 import { tblTickets } from '../fixtures/fixtures';
+const { publicRuntimeConfig } = getConfig();
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,9 +31,7 @@ const useStyles = makeStyles(theme => ({
 const Tickets = ({ events }) => {
   const [tickets, setTickets] = useState(null);
   const [error, setError] = useState(false);
-  const [message, setMessage] = useState(
-    'Please choose an event or type a ticket number.'
-  );
+  const [message, setMessage] = useState('Please choose an event or type a ticket number.');
   const classes = useStyles();
 
   const handleSearch = async id => {
@@ -124,7 +124,7 @@ Tickets.getInitialProps = async ctx => {
       : ctx.res.writeHead(302, { location: '/' }).end();
 
   const { data: events } = await axios.post(
-    `${process.env.API_URL}/api/Event/getAllEvents`
+    `${publicRuntimeConfig.API_URL}/api/Event/getAllEvents`
   );
 
   if (token) {

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import getConfig from 'next/config';
 import Router from 'next/router';
 import nextCookie from 'next-cookies';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,10 +20,8 @@ import TextField from '@material-ui/core/TextField';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
 import { withAuthSync } from '../helperFunctions/authFunctions';
-import {
-  editQuestion,
-  saveQuestion
-} from '../helperFunctions/questionsFunction';
+import { editQuestion, saveQuestion } from '../helperFunctions/questionsFunction';
+const { publicRuntimeConfig } = getConfig();
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -114,25 +113,18 @@ const Questions = ({ questions }) => {
               aria-controls={question.mQuestion}
               id={question.id}
             >
-              <Typography className={classes.heading}>
-                {question.mQuestion}
-              </Typography>
+              <Typography className={classes.heading}>{question.mQuestion}</Typography>
               {/* <Typography className={classes.secondaryHeading}>
                 I am an expansion panel
               </Typography> */}
               <Chip
-                className={`${question.answer && classes.hidden} ${
-                  classes.chip
-                }`}
+                className={`${question.answer && classes.hidden} ${classes.chip}`}
                 label="Not answered"
                 color="secondary"
                 variant="outlined"
               />
               {clicked !== question.id && (
-                <Tooltip
-                  placement="top"
-                  title={question.accepted ? 'Accepted' : 'Rejected'}
-                >
+                <Tooltip placement="top" title={question.accepted ? 'Accepted' : 'Rejected'}>
                   <Fab
                     className={classes.fab}
                     color={question.accepted ? 'primary' : 'secondary'}
@@ -195,8 +187,10 @@ Questions.getInitialProps = async ctx => {
       : ctx.res.writeHead(302, { location: '/' }).end();
 
   const { data } = await axios.get(
-    `${process.env.API_URL}/api/question/getAdminQuestions`,
-    { headers: { 'Content-Type': 'application/json' } }
+    `${publicRuntimeConfig.API_URL}/api/question/getAdminQuestions`,
+    {
+      headers: { 'Content-Type': 'application/json' }
+    }
   );
 
   if (token) {
