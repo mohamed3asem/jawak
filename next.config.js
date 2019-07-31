@@ -9,6 +9,6 @@ const prod = process.env.NODE_ENV === 'production';
 module.exports = {
   target: 'server',
   publicRuntimeConfig: {
-    API_URL: prod ? 'http://jawak.us-east-2.elasticbeanstalk.com' : 'http://192.168.1.8:5001'
+    API_URL: prod ? 'https://jawak.us-east-2.elasticbeanstalk.com' : 'http://192.168.1.8:5001'
   }
 };
