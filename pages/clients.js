@@ -110,7 +110,6 @@ const Clients = ({ clients, allOrganizers, allCustomers, registerAdmin, parsedTo
 
 Clients.getInitialProps = async ctx => {
   const { token } = nextCookie(ctx);
-  const parsedToken = JSON.parse(token);
 
   const redirectOnError = () =>
     typeof window !== 'undefined'
@@ -125,6 +124,7 @@ Clients.getInitialProps = async ctx => {
   const clients = { allOrganizers, allCustomers };
 
   if (token) {
+    const parsedToken = JSON.parse(token);
     return { clients, allOrganizers, allCustomers, parsedToken };
   }
 
