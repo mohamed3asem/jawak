@@ -7,6 +7,7 @@ export const useStyles = makeStyles(theme => ({
     display: 'flex'
   },
   appBar: {
+    zIndex: '1',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
@@ -15,6 +16,7 @@ export const useStyles = makeStyles(theme => ({
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
+    zIndex: '1',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen

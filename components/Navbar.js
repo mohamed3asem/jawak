@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
+import { connect } from 'react-redux';
 import clsx from 'clsx';
 import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -17,6 +18,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import { useStyles } from '../styles/navbarStyles';
 import { logout } from '../helperFunctions/authFunctions';
+import { unregisterAdmin } from '../redux/actions';
 
 const menuHeaders = [
   { id: '2', name: 'Events', link: '/events' },
@@ -27,7 +29,7 @@ const menuHeaders = [
   { id: '7', name: 'Questions', link: '/questions' }
 ];
 
-const Navbar = ({ children }) => {
+const Navbar = ({ children, auth, unregisterAdmin }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -40,6 +42,11 @@ const Navbar = ({ children }) => {
     setOpen(false);
   };
 
+  const handleClick = () => {
+    unregisterAdmin();
+    logout();
+  };
+
   return (
     <div className={classes.root}>
       <AppBar
@@ -49,21 +56,25 @@ const Navbar = ({ children }) => {
         })}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
+          {auth.adminId && (
+            <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={clsx(classes.menuButton, open && classes.hadminIde)}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
           <Typography variant="h6" noWrap className={classes.title}>
             Jawak - Admin Panel
           </Typography>
-          <Button color="inherit" onClick={logout}>
-            Logout
-          </Button>
+          {auth.adminId && (
+            <Button color="inherit" onClick={handleClick}>
+              Logout
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -77,11 +88,7 @@ const Navbar = ({ children }) => {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
         <Divider />
@@ -107,4 +114,10 @@ const Navbar = ({ children }) => {
   );
 };
 
-export default Navbar;
+const mapStateToProps = ({ auth }) => ({ auth });
+const mapDispatchToProps = dispatch => ({ unregisterAdmin: () => dispatch(unregisterAdmin()) });
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Navbar);

@@ -1,5 +1,6 @@
 import React from 'react';
 import Router from 'next/router';
+import { connect } from 'react-redux';
 import getConfig from 'next/config';
 import nextCookie from 'next-cookies';
 import axios from 'axios';
@@ -14,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { useStyles } from '../styles/loginPage';
 import { login } from '../helperFunctions/authFunctions';
+import { registerAdmin } from '../redux/actions';
 const { publicRuntimeConfig } = getConfig();
 
 const validationSchema = Yup.object({
@@ -29,7 +31,8 @@ const Index = ({
   handleChange,
   isValid,
   setFieldTouched,
-  isSubmitting
+  isSubmitting,
+  ...props
 }) => {
   const classes = useStyles();
 
@@ -113,16 +116,17 @@ const Index = ({
 //   return;
 // };
 
-export default withFormik({
+const formikedIndex = withFormik({
   displayName: 'LoginForm',
   mapPropsToValues: () => ({ emailorphone: '', password: '' }),
   validationSchema,
-  handleSubmit: async ({ emailorphone, password }, { setSubmitting, setFieldError }) => {
+  handleSubmit: async ({ emailorphone, password }, { setSubmitting, setFieldError, props }) => {
     try {
       const { data: token } = await axios.post(`${publicRuntimeConfig.API_URL}/api/admin/login`, {
         emailorphone,
         password
       });
+      props.registerAdmin(token.id);
       login({ token });
     } catch (e) {
       if (e.message === 'Network Error') {
@@ -134,3 +138,10 @@ export default withFormik({
     }
   }
 })(Index);
+
+const mapDispatchToProps = dispatch => ({ registerAdmin: id => dispatch(registerAdmin(id)) });
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(formikedIndex);

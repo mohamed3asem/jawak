@@ -1,9 +1,5 @@
 export { approveEvent, getEventsByOrganizerId } from './eventsActions';
-export {
-  getTicketsByEventId,
-  getTicketsById,
-  changeTicketState
-} from './ticketsActions';
+export { getTicketsByEventId, getTicketsById, changeTicketState } from './ticketsActions';
 export { loading, notLoading } from './loadingActions';
 export {
   getOrganizerById,
@@ -12,4 +8,4 @@ export {
   editOrganizerById
 } from './clientsActions';
 export { getWalletForOrganizer } from './walletActions';
-export { registerAdmin } from './authActions';
+export { registerAdmin, unregisterAdmin } from './authActions';
