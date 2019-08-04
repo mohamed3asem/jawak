@@ -42,11 +42,9 @@ const Index = ({
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
+        <img src="/static/images/jawak.gif" style={{ width: '50%' }} />
+        <Typography component="h1" variant="h5" className={classes.title}>
+          Admin Sign In
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
@@ -100,20 +98,20 @@ const Index = ({
   );
 };
 
-Index.getInitialProps = async ctx => {
-  const { token } = nextCookie(ctx);
+// Index.getInitialProps = async ctx => {
+//   const { token } = nextCookie(ctx);
 
-  const redirectOnError = () =>
-    typeof window !== 'undefined'
-      ? Router.push('/events')
-      : ctx.res.writeHead(302, { location: '/events' }).end();
+//   const redirectOnError = () =>
+//     typeof window !== 'undefined'
+//       ? Router.push('/events')
+//       : ctx.res.writeHead(302, { location: '/events' }).end();
 
-  if (token) {
-    return redirectOnError();
-  }
+//   if (token) {
+//     return redirectOnError();
+//   }
 
-  return;
-};
+//   return;
+// };
 
 export default withFormik({
   displayName: 'LoginForm',

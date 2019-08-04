@@ -6,6 +6,9 @@ export const useStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.common.white
     }
   },
+  title: {
+    color: '#ad880f'
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',

@@ -13,29 +13,15 @@ import { store } from '../redux';
 
 NProgress.configure({ showSpinner: false });
 
-Router.onRouteChangeStart = () => {
-  NProgress.start();
-};
-
-Router.onRouteChangeComplete = () => {
-  NProgress.done();
-};
-
-Router.onRouteChangeError = () => {
-  NProgress.done();
-};
-
-// Router.events.on('routeChangeStart', () => NProgress.start());
-// Router.events.on('routeChangeComplete', () => NProgress.done());
-// Router.events.on('routeChangeError', () => NProgress.done());
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     return {
       pageProps: {
-        ...(Component.getInitialProps
-          ? await Component.getInitialProps(ctx)
-          : {})
+        ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {})
       }
     };
   }
@@ -60,9 +46,13 @@ class MyApp extends App {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <Navbar>
+            {Component.displayName === 'WithFormik(Index)' ? (
               <Component {...pageProps} />
-            </Navbar>
+            ) : (
+              <Navbar>
+                <Component {...pageProps} />
+              </Navbar>
+            )}
           </ThemeProvider>
         </Provider>
       </Container>
