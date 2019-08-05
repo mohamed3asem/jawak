@@ -15,6 +15,7 @@ import SearchBar from '../components/SearchBar';
 import Table from '../components/Table';
 import { getTicketsByEventId, getTicketsById } from '../redux/actions';
 import { tblTickets } from '../fixtures/fixtures';
+import { withAuthSync } from '../helperFunctions/authFunctions';
 const { publicRuntimeConfig } = getConfig();
 
 const useStyles = makeStyles(theme => ({
@@ -136,4 +137,4 @@ Tickets.getInitialProps = async ctx => {
 
 const mapStateToProps = ({ loading }) => ({ loading });
 
-export default connect(mapStateToProps)(Tickets);
+export default connect(mapStateToProps)(withAuthSync(Tickets));

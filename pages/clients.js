@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useState } from 'react';
 import axios from 'axios';
 import nextCookie from 'next-cookies';
 import Router from 'next/router';
@@ -17,7 +16,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
 import { tblOrganizers, tblCustomers } from '../fixtures/fixtures';
 import { filterClients } from '../helperFunctions/clientsFunctions';
-import { registerAdmin } from '../redux/actions';
+import { withAuthSync } from '../helperFunctions/authFunctions';
 const { publicRuntimeConfig } = getConfig();
 
 const tabHeaders = [{ id: '1', text: 'Organizers' }, { id: '2', text: 'Customers' }];
@@ -32,16 +31,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Clients = ({ clients, allOrganizers, allCustomers, registerAdmin, parsedToken }) => {
+const Clients = ({ clients, allOrganizers, allCustomers }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
   const [organizers, setOrganizers] = useState(clients.allOrganizers);
   const [customers, setCustomers] = useState(clients.allCustomers);
-
-  useEffect(() => {
-    registerAdmin(parsedToken.id);
-  }, []);
 
   const handleInputChange = e => {
     const { value } = e.target;
@@ -131,11 +126,4 @@ Clients.getInitialProps = async ctx => {
   return redirectOnError();
 };
 
-const mapDispatchToProps = dispatch => ({
-  registerAdmin: id => dispatch(registerAdmin(id))
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Clients);
+export default withAuthSync(Clients);

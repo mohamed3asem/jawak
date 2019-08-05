@@ -1,4 +1,5 @@
 import React from 'react';
+import nextCookie from 'next-cookies';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import App, { Container } from 'next/app';
@@ -10,6 +11,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
 import Navbar from '../components/Navbar';
 import { store } from '../redux';
+import { registerAdmin } from '../redux/actions';
 
 NProgress.configure({ showSpinner: false });
 
@@ -19,14 +21,22 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
+    let { token } = nextCookie(ctx);
+    if (token) {
+      token = JSON.parse(token);
+    }
     return {
       pageProps: {
         ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {})
-      }
+      },
+      token
     };
   }
 
   componentDidMount() {
+    if (this.props.token) {
+      this.props.store.dispatch(registerAdmin(this.props.token.id));
+    }
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
@@ -56,4 +66,4 @@ class MyApp extends App {
   }
 }
 
-export default withRedux(store, { debug: true })(MyApp);
+export default withRedux(store)(MyApp);

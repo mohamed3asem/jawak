@@ -101,21 +101,6 @@ const Index = ({
   );
 };
 
-// Index.getInitialProps = async ctx => {
-//   const { token } = nextCookie(ctx);
-
-//   const redirectOnError = () =>
-//     typeof window !== 'undefined'
-//       ? Router.push('/events')
-//       : ctx.res.writeHead(302, { location: '/events' }).end();
-
-//   if (token) {
-//     return redirectOnError();
-//   }
-
-//   return;
-// };
-
 const formikedIndex = withFormik({
   displayName: 'LoginForm',
   mapPropsToValues: () => ({ emailorphone: '', password: '' }),
