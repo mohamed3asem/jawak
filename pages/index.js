@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Router from 'next/router';
 import { connect } from 'react-redux';
 import getConfig from 'next/config';
@@ -6,16 +6,15 @@ import nextCookie from 'next-cookies';
 import axios from 'axios';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { useStyles } from '../styles/loginPage';
 import { login } from '../helperFunctions/authFunctions';
 import { registerAdmin } from '../redux/actions';
+import Loader from '../components/Loader';
 const { publicRuntimeConfig } = getConfig();
 
 const validationSchema = Yup.object({
@@ -32,7 +31,7 @@ const Index = ({
   isValid,
   setFieldTouched,
   isSubmitting,
-  ...props
+  token
 }) => {
   const classes = useStyles();
 
@@ -41,6 +40,14 @@ const Index = ({
     handleChange(e);
     setFieldTouched(name, true, false);
   };
+
+  useEffect(() => {
+    if (token) Router.push('/events');
+  }, []);
+
+  if (token) {
+    return <Loader title="Redirecting to admin page" />;
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -99,6 +106,11 @@ const Index = ({
       </div>
     </Container>
   );
+};
+
+Index.getInitialProps = async ctx => {
+  const { token } = nextCookie(ctx);
+  return token ? { token: JSON.parse(token) } : {};
 };
 
 const formikedIndex = withFormik({

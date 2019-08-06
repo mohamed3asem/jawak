@@ -41,9 +41,7 @@ const SearchBar = ({ label, text, values, handleSearch }) => {
         <Select
           value={value}
           onChange={handleChange}
-          input={
-            <OutlinedInput labelWidth={labelWidth} name={label} id={label} />
-          }
+          input={<OutlinedInput labelWidth={labelWidth} name={label} id={label} />}
         >
           <MenuItem value="" />
           {values.map(({ name, id }) => (
@@ -63,9 +61,7 @@ const SearchBar = ({ label, text, values, handleSearch }) => {
         >
           <SearchIcon />
         </Fab>
-        {loading && (
-          <CircularProgress size={20} className={classes.fabProgress} />
-        )}
+        {loading && <CircularProgress size={20} className={classes.fabProgress} />}
       </div>
     </div>
   );
