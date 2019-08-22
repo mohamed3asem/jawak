@@ -17,8 +17,7 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email('Not Valid Email')
     .required('Required Field'),
-  moiNumber: Yup.string().required('Required Field'),
-  nationalNum: Yup.string().required('Required Field')
+  moiNumber: Yup.string().required('Required Field')
 });
 
 const EditForm = ({
@@ -65,11 +64,7 @@ const EditForm = ({
           <CloseIcon />
           Cancel
         </Button>
-        <Button
-          onClick={handleSubmit}
-          color="primary"
-          disabled={!isValid || isSubmitting}
-        >
+        <Button onClick={handleSubmit} color="primary" disabled={!isValid || isSubmitting}>
           <CheckIcon />
           Save
         </Button>
@@ -80,9 +75,13 @@ const EditForm = ({
 
 export default withFormik({
   displayName: 'EditOrganizerForm',
-  mapPropsToValues: ({
-    organizer: { name, phone, email, city, moiNumber, nationalNum }
-  }) => ({ name, phone, email, city, moiNumber, nationalNum }),
+  mapPropsToValues: ({ organizer: { name, phone, email, city, moiNumber } }) => ({
+    name,
+    phone,
+    email,
+    city,
+    moiNumber
+  }),
   validationSchema,
   handleSubmit: async (values, { setSubmitting, props, setFieldError }) => {
     try {
@@ -94,7 +93,6 @@ export default withFormik({
       await Router.push('/clients');
       ///////////////////////////////
     } catch (e) {
-      setFieldError('nationalNum', 'National ID already taken');
       setSubmitting(false);
     }
   }

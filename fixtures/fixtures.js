@@ -34,8 +34,7 @@ export const tblOrganizers = [
   // { id: '4', text: 'Created At', valueName: 'createdAt' },
   // { id: '5', text: 'Profile Picture', valueName: 'profileImage' },
   // { id: '6', text: 'Role', valueName: 'roleId' },
-  { id: '7', text: 'Email', valueName: 'email' },
-  { id: '8', text: 'National ID', valueName: 'nationalNum' }
+  { id: '7', text: 'Email', valueName: 'email' }
   // { id: '9', text: 'City', valueName: 'city' },
   // { id: '10', text: 'MOI Number', valueName: 'moiNumber' }
 ];
@@ -48,8 +47,7 @@ export const tblCustomers = [
   // { id: '5', text: 'Birthdate', valueName: 'birthdate' },
   // { id: '6', text: 'Profile Picture', valueName: 'profileImage' },
   // { id: '7', text: 'Joined By', valueName: 'joinForm' },
-  { id: '8', text: 'Email', valueName: 'email' },
-  { id: '9', text: 'National ID', valueName: 'nationalNum' }
+  { id: '8', text: 'Email', valueName: 'email' }
 ];
 
 export const tblTickets = [
@@ -86,7 +84,6 @@ export const organizerListKeys = {
   phone: 'Phone No.',
   city: 'City',
   email: 'Email:',
-  nationalNum: 'National ID',
   moiNumber: 'MOI Number:',
   createdAt: 'Created At:',
   description: 'Description:'
@@ -96,7 +93,6 @@ export const organizerListIcons = {
   phone: <Smartphone />,
   city: <LocationCity />,
   email: <Email />,
-  nationalNum: <CreditCard />,
   moiNumber: <CreditCard />,
   createdAt: <CalenderToday />,
   description: <EventNote />
@@ -107,7 +103,6 @@ export const customerListKeys = {
   city: 'City:',
   email: 'Email:',
   gender: 'Gender:',
-  nationalNum: 'National ID:',
   birthdate: 'Birth Date:',
   joinForm: 'Joined By:',
   createdAt: 'Created At:',
@@ -119,7 +114,6 @@ export const customerListIcons = {
   city: <LocationCity />,
   email: <Email />,
   gender: <Person />,
-  nationalNum: <CreditCard />,
   birthdate: <CalenderToday />,
   joinForm: <HowToReg />,
   createdAt: <CalenderToday />,
@@ -156,12 +150,6 @@ export const editFormFields = [
     name: 'moiNumber',
     type: 'text',
     label: 'MOI Number',
-    required: true
-  },
-  {
-    name: 'nationalNum',
-    type: 'text',
-    label: 'National Num',
     required: true
   },
   {
