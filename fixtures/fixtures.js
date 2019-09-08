@@ -10,8 +10,8 @@ import HowToReg from '@material-ui/icons/HowToReg';
 
 export const tblEvents = [
   { id: '1', text: 'Name', valueName: 'name' },
-  // { id: '2', text: 'Organizer', valueName: 'organizerId' },
-  // { id: '3', text: 'Activity', valueName: 'activityId' },
+  { id: '2', text: 'Organizer', valueName: 'phoneNumber' },
+  { id: '3', text: 'Activity', valueName: 'activityName' },
   { id: '4', text: 'City', valueName: 'city' },
   // { id: '5', text: 'Age', valueName: 'communityAgeId' },
   // { id: '6', text: 'Gender', valueName: 'communityGenderId' },

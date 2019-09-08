@@ -117,8 +117,26 @@ Events.getInitialProps = async ctx => {
     `${publicRuntimeConfig.API_URL}/api/organizer/getallorganizer`
   );
 
+  const { data: activities } = await axios.get(
+    `${publicRuntimeConfig.API_URL}/api/Activities/getallactivities`
+  );
+
+  events.map(event => {
+    organizers.map(({ id, phone }) => {
+      if (event.organizerId === id) {
+        event.phoneNumber = phone;
+      }
+    });
+    activities.map(({ id, nameEN }) => {
+      if (event.activityId === id) {
+        event.activityName = nameEN;
+      }
+    });
+  });
+
   const categorizedEvents = categorizeEvents(events);
 
+  console.log('Events: ', categorizedEvents);
   if (token) {
     return { categorizedEvents, organizers };
   }
